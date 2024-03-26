@@ -7,7 +7,7 @@ namespace SaajeApplic.Models
     public class Commentaire
     {
         [Key]
-        public int CommentaireId { get; set; }
+        public int? CommentaireId { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Date")]
@@ -22,9 +22,10 @@ namespace SaajeApplic.Models
         [NotMapped]
         public virtual Projet Projets { get; set; }
 
-        public String? UserId { get; set; }
-        [ForeignKey("UserId")]
+        [ForeignKey("AppUsers")]
         [NotMapped]
+        public String? UserId { get; set; }
         public virtual AppUser AppUsers { get; set; }
+        
     }
 }

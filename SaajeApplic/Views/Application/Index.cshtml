@@ -1,0 +1,84 @@
+﻿@model IEnumerable<SaajeApplic.Models.Projet>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card w-100" style="margin:auto">
+    <div class="card-header text-white" style="background-color:darkorange ">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h3><i class="fa-solid fa-list"></i> Liste des Projets</h3>
+                </div>
+                <div class="col">
+                    <a asp-action="Create" class="btn btn-success w-18" style="float:right"><i class="fa-solid fa-plus"></i> Ajouter </a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-striped table-warning table-bordered" style="width:100%; overflow-x: auto">
+            <thead style="background-color:sandybrown">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProjetName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PlanAction)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateDebut)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateLine)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EtatProjet)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateCloture)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProjetName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PlanAction)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateDebut)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateLine)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EtatProjet)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateCloture)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ProjetId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.ProjetId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.ProjetId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

@@ -24,9 +24,9 @@ namespace SaajeApplic.Models
         [NotMapped]
         public virtual Projet Projets { get; set; }
 
-        public String? UserId { get; set; }
-        [ForeignKey("UserId")]
+        [ForeignKey("AppUsers")]
         [NotMapped]
+        public String? UserId { get; set; }
         public virtual AppUser AppUsers { get; set; }
     }
 }

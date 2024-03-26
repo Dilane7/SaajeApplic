@@ -1,0 +1,156 @@
+﻿@model SaajeApplic.Models.Projet
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card w-50" style="margin:auto">
+    <div class="card-header bg-info text-white" style="font-weight:bold">
+        <h1><i class="fa-regular fa-square-plus"></i> Creer un nouveau projet </h1>
+    </div>
+
+        <form asp-action="Create">
+            <div class="card-body" >
+                <div class="mb-10">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="ProjetName" class="control-label"></label>
+                        <textarea asp-for="ProjetName" class="form-control" cols="50" rows="2"></textarea>
+                        <span asp-validation-for="ProjetName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PlanAction" class="control-label"></label>
+                        <input asp-for="PlanAction" class="form-control" />
+                        <span asp-validation-for="PlanAction" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateDebut" class="control-label"></label>
+                        <input asp-for="DateDebut" class="form-control" />
+                        <span asp-validation-for="DateDebut" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateLine" class="control-label"></label>
+                        <input asp-for="DateLine" class="form-control" />
+                        <span asp-validation-for="DateLine" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="UserId" class="control-label">porteur</label>
+                    <select name="UserId" asp-for="UserId" class="form-control" aria-label="Default select example">
+                            @foreach (var user in Model.Users)
+                            {
+                                <option value="@user.Value">@user.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="EtatProjet" class="control-label"></label>
+                        <select asp-for="EtatProjet" class="form-control form-select" aria-label="Default select example">
+                            <option value="En cour" >En cour</option>
+                            <option value="Clos" >Clos</option>
+                            <option value="En attente de nouveau élément">En attente de nouveau élément </option>
+                        </select>
+                    
+                    <span asp-validation-for="EtatProjet" class="text-danger"></span>
+                    </div>
+           
+                     <table id="ComTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Commentaire
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in Model.Commentaires)*@
+                            @for (int i = 0; i < Model.Commentaires.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(x => x.Commentaires[i].ComDate, new { htmlAttributes = new { @class = "form-control" } })
+                                        @*<input asp-for="@item.ComDate" class="form-control" />*@
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(x => x.Commentaires[i].ComIntitule, new { htmlAttributes = new { @class = "form-control" } })
+                                        @*<input asp-for="@item.ComIntitule" class="form-control" />*@
+                                    </td>
+                                    <td>
+                                        @*<button id="btndummy-@i" type="button" class="btn btn-sm invisible">Dummy</button>*@
+                                        <buton id="btnadd-@i" type="button" class="btn btn-sm btn-secondary visible" onclick="AddItem(this)" >Add</buton>
+                                        <buton id="btnremove-@i" type="button" class="btn btn-sm btn-danger invisible" onclick="DeleteItem(this)" >Delete</buton>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <input type="hidden" id="hdnLastIndex" value="0" />
+                </div>
+           </div>
+           <div class="card-footer text-muted">
+            <div class="form-group">
+                <div class="btn-group" role="group">
+                    <button type="submit" class="btn btn-success m-2 p-2"><i class="fa-sharp fa-regular fa-circle-check"></i> Creer</button>
+                    <a asp-action="Index" class="btn btn-danger m-2 p-2"><i class="fa-solid fa-xmark"></i> Annuler</a>
+                </div>
+
+            </div>
+           </div>
+        </form>
+    
+</div>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+
+        function DeleteItem(btn) 
+        {
+            $(btn).closest('tr').remove();
+        }
+        
+        function AddItem(btn) {
+
+            var table = document.getElementById('ComTable');
+            var rows = table.getElementsByTagName('tr');
+
+            var rowOuterHtml = rows[rows.length - 1].outerHTML;
+
+            var lastrowIdx = document.getElementById('hdnLastIndex').value;
+
+            var nextrowIdx = eval(lastrowIdx) + 1;
+
+            document.getElementById('hdnLastIndex').value = nextrowIdx;
+
+            rowOuterHtml = rowOuterHtml.replaceAll('_' + lastrowIdx + '_', '_' + nextrowIdx + '_');
+            rowOuterHtml = rowOuterHtml.replaceAll('[' + lastrowIdx + ']', '[' + nextrowIdx + ']');
+            rowOuterHtml = rowOuterHtml.replaceAll('-' + lastrowIdx, '-' + nextrowIdx);
+
+            var newRow = table.insertRow();
+            newRow.innerHTML = rowOuterHtml;
+
+            var btnAddID = btn.id;
+            var btnDeleteid = btnAddID.replaceAll('btnadd', 'btnremove');
+
+            var delbtn = document.getElementById(btnDeleteid);
+            delbtn.classList.add("visible");
+            delbtn.classList.remove("invisible");
+
+            var addbtn = document.getElementById(btnAddID);
+            addbtn.classList.remove("visible");
+            addbtn.classList.add("invisible");
+        }
+    
+    </script>
+}
