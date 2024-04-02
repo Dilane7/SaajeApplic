@@ -1,9 +1,9 @@
-﻿@model SaajeApplic.Models.Projet
+﻿@model SaajeApplic.Models.ViewModel.ProjetCreateVM
 
 
-@{
+@* @{
     ViewData["Title"] = "Create";
-}
+} *@
 
 <div class="card w-50" style="margin:auto">
     <div class="card-header bg-info text-white" style="font-weight:bold">
@@ -37,8 +37,8 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="UserId" class="control-label">porteur</label>
-                    <select name="UserId" asp-for="UserId" class="form-control" aria-label="Default select example">
-                            @foreach (var user in Model.Users)
+                        <select class="form-control" id="UserId" name="UserId">
+                            @foreach (var user in Model.UsersList)
                             {
                                 <option value="@user.Value">@user.Text</option>
                             }
@@ -55,42 +55,7 @@
                     <span asp-validation-for="EtatProjet" class="text-danger"></span>
                     </div>
            
-                     <table id="ComTable" class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Date
-                                </th>
-                                <th>
-                                    Commentaire
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @*@foreach (var item in Model.Commentaires)*@
-                            @for (int i = 0; i < Model.Commentaires.Count; i++)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.EditorFor(x => x.Commentaires[i].ComDate, new { htmlAttributes = new { @class = "form-control" } })
-                                        @*<input asp-for="@item.ComDate" class="form-control" />*@
-                                    </td>
-                                    <td>
-                                        @Html.EditorFor(x => x.Commentaires[i].ComIntitule, new { htmlAttributes = new { @class = "form-control" } })
-                                        @*<input asp-for="@item.ComIntitule" class="form-control" />*@
-                                    </td>
-                                    <td>
-                                        @*<button id="btndummy-@i" type="button" class="btn btn-sm invisible">Dummy</button>*@
-                                        <buton id="btnadd-@i" type="button" class="btn btn-sm btn-secondary visible" onclick="AddItem(this)" >Add</buton>
-                                        <buton id="btnremove-@i" type="button" class="btn btn-sm btn-danger invisible" onclick="DeleteItem(this)" >Delete</buton>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                    <input type="hidden" id="hdnLastIndex" value="0" />
+                     
                 </div>
            </div>
            <div class="card-footer text-muted">

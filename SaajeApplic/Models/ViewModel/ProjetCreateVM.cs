@@ -1,11 +1,10 @@
-﻿using SaajeApplic.Areas.Identity.Data;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SaajeApplic.Models
+namespace SaajeApplic.Models.ViewModel
 {
-    public class Projet
+    public class ProjetCreateVM
     {
         [Key]
         public int ProjetId { get; set; }
@@ -35,19 +34,10 @@ namespace SaajeApplic.Models
         [Display(Name = "Date de Cloture")]
         public DateTime? DateCloture { get; set; } = DateTime.Today;
 
-        public List<Commentaire> Commentaires { get; set; } = new List<Commentaire>();
-
-        public List<Probleme> Problemes { get; set; }
-
-        public List<Tache> Taches { get; set; }
-
         [ForeignKey("AppUsers")]
         [NotMapped]
         [Required(ErrorMessage = "Veuillez sélectionner un utilisateur")]
-        public String? UserId { get; set; } 
-        public virtual AppUser AppUsers { get; set; } = new AppUser();
-
-        //[NotMapped]
-        //public IEnumerable<SelectListItem> Users { get; set; } = new SelectListItem[0];
+        public String? UserId { get; set; }
+        public IEnumerable<SelectListItem> UsersList { get; set; } = new List<SelectListItem>();
     }
 }
