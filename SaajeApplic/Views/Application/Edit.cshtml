@@ -2,19 +2,21 @@
 
 
 @* @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 } *@
 
 <div class="card w-50" style="margin:auto">
     <div class="card-header bg-info text-white" style="font-weight:bold">
-        <h1><i class="fa-regular fa-square-plus"></i> Creer un nouveau projet </h1>
+        <h1><i class="fa-regular fa-square-plus"></i> Apporter des Modifications </h1>
     </div>
 
-        <form asp-action="Create" id="myForm">
+        <form asp-action="Edit" id="myFormEdit">
             <div class="card-body" >
+            <input type="hidden" asp-for="ProjetId" />
                 <div class="mb-10">
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
                     <div class="form-group">
                         <label asp-for="ProjetName" class="control-label"></label>
                         <textarea asp-for="ProjetName" class="form-control" cols="50" rows="2"></textarea>
@@ -28,7 +30,7 @@
                                 <option value="@user.Value">@user.Text</option>
                             }
                         </select>
-                    </div>
+                    </div> 
                     <div class="form-group">
                         <label asp-for="PlanAction" class="control-label"></label>
                         <textarea asp-for="PlanAction" class="form-control" cols="50" rows="2"></textarea>
@@ -49,24 +51,24 @@
                         <label asp-for="EtatProjet" class="control-label"></label>
                         <select asp-for="EtatProjet" class="form-control form-select" aria-label="Default select example">
                             <option value="En cours" >En cours</option>
-                            <option value="Clos" >Clos</option>
+                            <option value="Clos" >Clos </option>
                             <option value="En attente de nouveau élément">En attente de nouveau élément </option>
                         </select>
                     
-                    <span asp-validation-for="EtatProjet" class="text-danger"></span>
+                        <span asp-validation-for="EtatProjet" class="text-danger"></span>
                     </div>
            
                      
                 </div>
            </div>
            <div class="card-footer text-muted">
-            <div class="form-group">
-                <div class="btn-group" role="group">
-                    <button type="submit" class="btn btn-success m-2 p-2"><i class="fa-sharp fa-regular fa-circle-check"></i> Creer</button>
-                    <a asp-action="Index" class="btn btn-danger m-2 p-2"><i class="fa-solid fa-xmark"></i> Annuler</a>
-                </div>
+                <div class="form-group">
+                    <div class="btn-group" role="group">
+                        <button type="submit" class="btn btn-success m-2 p-2"><i class="fa-sharp fa-regular fa-circle-check"></i> Sauvegarder</button>
+                        <a asp-action="Index" class="btn btn-danger m-2 p-2"><i class="fa-solid fa-xmark"></i> Annuler</a>
+                    </div>
 
-            </div>
+                </div>
            </div>
         </form>
     
@@ -91,7 +93,7 @@
         }
 
         // Ecouter l'événement submit du formulaire
-        document.getElementById('myForm').addEventListener('submit', function (event) {
+        document.getElementById('myFormEdit').addEventListener('submit', function (event) {
             // Récupérer les valeurs des champs date de début et date de fin
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;

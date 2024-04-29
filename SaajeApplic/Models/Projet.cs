@@ -23,8 +23,10 @@ namespace SaajeApplic.Models
         [Display(Name = "Date de debut")]
         public DateTime DateDebut { get; set; } = DateTime.Today;
 
+        
         [DataType(DataType.Date)]
         [Display(Name = "Delais")]
+        
         public DateTime DateLine { get; set; } = DateTime.Today;
 
         [Display(Name = "Etat du projet")]
@@ -33,21 +35,20 @@ namespace SaajeApplic.Models
 
         [DataType(DataType.Date)]
         [Display(Name = "Date de Cloture")]
-        public DateTime? DateCloture { get; set; } = DateTime.Today;
+        public DateTime? DateCloture { get; set; }
 
         public List<Commentaire> Commentaires { get; set; } = new List<Commentaire>();
 
-        public List<Probleme> Problemes { get; set; }
+        public List<Probleme> Problemes { get; set; } = new List<Probleme>();
 
-        public List<Tache> Taches { get; set; }
+        public List<Tache> Taches { get; set; } = new List<Tache>();
 
         [ForeignKey("AppUsers")]
         [NotMapped]
         [Required(ErrorMessage = "Veuillez sélectionner un utilisateur")]
         public String? UserId { get; set; } 
-        public virtual AppUser AppUsers { get; set; } = new AppUser();
+        public virtual AppUser AppUsers { get; set; }
 
-        //[NotMapped]
-        //public IEnumerable<SelectListItem> Users { get; set; } = new SelectListItem[0];
+        
     }
 }

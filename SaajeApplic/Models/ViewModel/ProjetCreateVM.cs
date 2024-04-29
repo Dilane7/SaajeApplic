@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace SaajeApplic.Models.ViewModel
 {
     public class ProjetCreateVM
@@ -22,9 +23,11 @@ namespace SaajeApplic.Models.ViewModel
         [Display(Name = "Date de debut")]
         public DateTime DateDebut { get; set; } = DateTime.Today;
 
+        
         [DataType(DataType.Date)]
         [Display(Name = "Delais")]
         public DateTime DateLine { get; set; } = DateTime.Today;
+
 
         [Display(Name = "Etat du projet")]
         public string EtatProjet { get; set; }
@@ -35,9 +38,11 @@ namespace SaajeApplic.Models.ViewModel
         public DateTime? DateCloture { get; set; } = DateTime.Today;
 
         [ForeignKey("AppUsers")]
-        [NotMapped]
+        //[NotMapped]
         [Required(ErrorMessage = "Veuillez sélectionner un utilisateur")]
         public String? UserId { get; set; }
+
+        [NotMapped]
         public IEnumerable<SelectListItem> UsersList { get; set; } = new List<SelectListItem>();
     }
 }

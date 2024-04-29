@@ -11,7 +11,7 @@ namespace SaajeApplic.Models
 
         [DataType(DataType.Date)]
         [Display(Name = "Date")]
-        public DateTime PbDate { get; set; }
+        public DateTime PbDate { get; set; } = DateTime.Today;
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Probleme")]

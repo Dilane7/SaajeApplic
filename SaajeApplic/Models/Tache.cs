@@ -13,10 +13,11 @@ namespace SaajeApplic.Models
         }
         [DataType(DataType.Date)]
         [Display(Name = "Date")]
-        public string TacheDate { get; set; }
+        public DateTime TacheDate { get; set; } = DateTime.Today;
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Tache")]
+        [Required(ErrorMessage ="Tache obligatoire")]
         public string TacheDescription { get; set; }
 
         public int? ProjetId { get; set; }

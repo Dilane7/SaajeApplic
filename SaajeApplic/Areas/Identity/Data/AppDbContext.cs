@@ -6,6 +6,7 @@ using SaajeApplic.Areas.Identity.Data;
 using SaajeApplic.Models;
 using System.Collections;
 using System.Reflection.Emit;
+using SaajeApplic.Models.ViewModel;
 
 namespace SaajeApplic.Areas.Identity.Data;
 
@@ -32,4 +33,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+
+public DbSet<SaajeApplic.Models.ViewModel.ProjetCreateVM> ProjetCreateVM { get; set; } = default!;
 }

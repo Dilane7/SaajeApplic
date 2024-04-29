@@ -1,4 +1,7 @@
-﻿@model IEnumerable<SaajeApplic.Models.Projet>
+﻿@using Microsoft.AspNetCore.Identity
+@using SaajeApplic.Areas.Identity.Data
+@model IEnumerable<SaajeApplic.Models.Projet>
+@inject SignInManager<AppUser> SignInManager;
 
 @{
     ViewData["Title"] = "Index";
@@ -11,17 +14,19 @@
                 <div class="col">
                     <h3><i class="fa-solid fa-list"></i> Liste des Projets</h3>
                 </div>
-                <div class="col">
-                    <a asp-action="Create" class="btn btn-success w-18" style="float:right"><i class="fa-solid fa-plus"></i> Ajouter </a>
-                </div>
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+                    <div class="col">
+                        <a asp-action="Create" class="btn btn-success w-18" style="float:right"><i class="fa-solid fa-plus"></i> Ajouter </a>
+                    </div>
+                }
+                
 
             </div>
 
         </div>
-
-
-
     </div>
+
     <div class="card-body">
         <table class="table table-hover table-striped table-warning table-bordered" style="width:100%; overflow-x: auto">
             <thead style="background-color:sandybrown">
@@ -29,6 +34,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.ProjetName)
                     </th>
+
                     <th>
                         @Html.DisplayNameFor(model => model.PlanAction)
                     </th>
@@ -70,9 +76,11 @@
                             @Html.DisplayFor(modelItem => item.DateCloture)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.ProjetId">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.ProjetId">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.ProjetId">Delete</a>
+                            <div class="btn-group w-25" role="group">
+                                <a asp-action="Edit" class="p-1" asp-route-id="@item.ProjetId"><i class="fa-solid fa-eye" style="color:cornflowerblue"></i></a> 
+                                <a asp-action="Details" class="mx-1 p-1" asp-route-id="@item.ProjetId"><i class="fa-solid fa-pen-to-square" style="color:coral"></i></a>
+                                <a asp-action="Delete" class="p-1" asp-controller="Application" asp-route-projetId="@item.ProjetId"><i class="fa-solid fa-trash" style="color:crimson"></i></a>
+                            </div>
                             
                         </td>
                     </tr>

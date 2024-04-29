@@ -1,4 +1,6 @@
-﻿@model SaajeApplic.Models.Projet
+﻿@model SaajeApplic.Models.ViewModel.ProjetDetailVM
+
+@using SaajeApplic.Models.ViewModel;
 
 @{
     ViewData["Title"] = "Details";
@@ -11,44 +13,379 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjetName)
+            @Html.DisplayNameFor(model => model.Projet.ProjetName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProjetName)
+            @Html.DisplayFor(model => model.Projet.ProjetName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PlanAction)
+            @Html.DisplayNameFor(model => model.Projet.PlanAction)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PlanAction)
+            @Html.DisplayFor(model => model.Projet.PlanAction)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateDebut)
+            @Html.DisplayNameFor(model => model.Projet.DateDebut)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateDebut)
+            @Html.DisplayFor(model => model.Projet.DateDebut)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateLine)
+            @Html.DisplayNameFor(model => model.Projet.DateLine)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateLine)
+            @Html.DisplayFor(model => model.Projet.DateLine)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EtatProjet)
+            @Html.DisplayNameFor(model => model.Projet.EtatProjet)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EtatProjet)
+            @Html.DisplayFor(model => model.Projet.EtatProjet)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateCloture)
+            @Html.DisplayNameFor(model => model.Projet.DateCloture)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateCloture)
+            @Html.DisplayFor(model => model.Projet.DateCloture)
         </dd>
     </dl>
 </div>
+
+<!-- add tache -->
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.ProjetId">Edit</a> |
+    <form asp-action="AddTache" asp-controller="Tache">
+        <input type="hidden" asp-for="Projet.ProjetId" />
+
+        <div class="modal fade" id="addTache" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Nouvelle Tache</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Tache.TacheDescription" class="control-label"></label>
+                            <textarea asp-for="Tache.TacheDescription" class="form-control" cols="50" rows="4"></textarea>
+                            <span asp-validation-for="Tache.TacheDescription" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i> Close</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-comment-dots"></i> Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- liste de taches -->
+
+<div class="card w-100" style="margin:auto">
+    <div class="card-header text-white" style="background-color:lightslategray ">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h3><i class="fa-solid fa-list-check"></i> Liste des Taches</h3>
+                </div>
+                <div class="col">
+                    <!-- bouton Ajouter une tache -->
+                    <button type="button" class="btn btn-primary" style="float:right" data-bs-toggle="modal" data-bs-target="#addTache" onclick="addtache()">
+                        <i class="fa-solid fa-comment-dots"></i> Ajouter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-striped  table-bordered" style="width:100%; overflow-x: auto">
+            <thead style="background-color:gray" class="text-white">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tache.TacheDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tache.TacheDescription)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Projet.Taches)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TacheDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TacheDescription)
+                        </td>
+
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.TacheId">Edit</a> |
+
+                            <a asp-action="DeleteTache" asp-controller="Tache" asp-route-projetId="@Model.Projet.ProjetId" asp-route-id="@item.TacheId">Delete</a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<br />
+
+<!-- add Probleme -->
+
+<div>
+    <form asp-action="AddProbleme" asp-controller="Probleme">
+        <input type="hidden" asp-for="Projet.ProjetId" />
+
+        <div class="modal fade" id="addProbleme" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Nouveau Probleme Rencontre</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Probleme.PbIntitule" class="control-label"></label>
+                            <textarea asp-for="Probleme.PbIntitule" class="form-control" cols="50" rows="4"></textarea>
+                            <span asp-validation-for="Probleme.PbIntitule" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i> Close</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-comment-dots"></i> Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<!-- liste des Problemes -->
+
+<div class="card w-100" style="margin:auto">
+    <div class="card-header text-white" style="background-color:lightslategray ">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h3><i class="fa-solid fa-list-check"></i> Liste des Problemes</h3>
+                </div>
+                <div class="col">
+                    <!-- bouton Ajouter un probleme -->
+                    <button type="button" class="btn btn-primary" style="float:right" data-bs-toggle="modal" data-bs-target="#addProbleme" onclick="addtache()">
+                        <i class="fa-solid fa-comment-dots"></i> Ajouter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-striped  table-bordered" style="width:100%; overflow-x: auto">
+            <thead style="background-color:gray" class="text-white">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Probleme.PbDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Probleme.PbIntitule)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Projet.Problemes)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PbDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PbIntitule)
+                        </td>
+
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ProblemeId">Edit</a> |
+
+                            <a asp-action="DeleteProbleme" asp-controller="Probleme" asp-route-projetId="@Model.Projet.ProjetId" asp-route-id="@item.ProblemeId">Delete</a>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- add commentaire -->
+<div>
+    
+    <form asp-action="AddCommentaire" asp-controller="Commentaire">
+        <input type="hidden" asp-for="Projet.ProjetId" />
+        
+    <div class="modal fade" id="addComment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Nouveau Commentaire</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Commentaire.ComIntitule" class="control-label"></label>
+                            <textarea asp-for="Commentaire.ComIntitule" class="form-control" cols="50" rows="4"></textarea>
+                            <span asp-validation-for="Commentaire.ComIntitule" class="text-danger"></span>
+                        </div>
+                   
+                    
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i> Close</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-comment-dots"></i> Commenter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+    
+</div>
+
+<br />
+
+<!-- liste commentaire -->
+<div class="card w-100" style="margin:auto">
+    <div class="card-header text-white" style="background-color:lightslategray ">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h3><i class="fa-solid fa-list-check"></i> Liste des Commentaires</h3>
+                </div>
+                <div class="col">
+                    <!-- Button commenter -->
+                    <button type="button" class="btn btn-primary" style="float:right" data-bs-toggle="modal" data-bs-target="#addComment" onclick="addcomment()">
+                        <i class="fa-solid fa-comment-dots"></i> Commenter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover table-striped  table-bordered" style="width:100%; overflow-x: auto">
+    <thead style="background-color:gray" class="text-white">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Commentaire.ComDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Commentaire.ComIntitule)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Projet.Commentaires)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ComIntitule)
+                </td>
+             
+                
+                    <td>
+                        
+                            <!-- Button edit commentaire -->
+                            <a asp-action="Edit" asp-controller="Commentaire" asp-route-projetId="@Model.Projet.ProjetId" asp-route-id="@item.CommentaireId" style="float:right" data-bs-toggle="modal" data-bs-target="#editComment"> Edit</a>|
+                       
+                        <a type="" asp-action="DeleteComment" asp-controller="Commentaire" asp-route-projetId="@Model.Projet.ProjetId" asp-route-id="@item.CommentaireId">Delete</a>
+
+                    </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+    </div>
+</div>
+
+
+<!-- edit commentaire -->
+<div>
+
+    <form asp-action="Edit" asp-controller="Commentaire">
+        <input type="hidden" asp-for="Projet.ProjetId" />
+
+        <div class="modal fade" id="editComment" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modifier le Commentaire</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Commentaire.ComIntitule" class="control-label"></label>
+                            <textarea asp-for="Commentaire.ComIntitule" class="form-control" cols="50" rows="4"></textarea>
+                            <span asp-validation-for="Commentaire.ComIntitule" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-circle-xmark"></i> Close</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-comment-dots"></i> Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Projet.ProjetId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    // function addcomment() {
+    //     $.ajax({
+    //         type:"Get",
+    //         url: "/Commentaire/Create"
+    //         success: function (result) {
+    //             $("#addComment").modal('show');
+    //         }
+    //     })
+
+    // }
+
+    
+</script>
